@@ -24,10 +24,16 @@
 			"default": "#2a2a2a",
 			"requires-restart": true
 		},
+		"tabtext-accent": {
+			"type": "rgb",
+			"name": "Tab Text Color",
+			"default": "#ffffff",
+			"requires-restart": true
+		},
 		"light-mode": {
 			"type": "bool",
 			"name": "Enable Light Mode",
-			"description": "Change the text color to black.",
+			"description": "Changes the label text color to black.",
 			"default": false,
 			"requires-restart": true
 		}
