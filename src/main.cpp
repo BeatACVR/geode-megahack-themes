@@ -4,7 +4,6 @@ using namespace geode::prelude;
 
 #define GET_SAVED_INT(key) Mod::get()->getSavedValue<int>(key)
 #define GET_SAVED_BOOL(key) Mod::get()->getSavedValue<bool>(key)
-#define SET_SAVED_INT(key, value) Mod::get()->setSavedValue<int>(key, value)
 
 class themeUtils {
 public:
