@@ -3,14 +3,19 @@
 	"gd": {
 		"win": "2.2074"
 	},
-	"id": "beat.mega_hack_recolors",
-	"name": "Mega Hack Recolors",
-	"version": "v9.0.1",
+	"id": "beat.mega_hack_themes",
+	"name": "Mega Hack Themes",
+	"version": "v1.0.0",
 	"developer": "Beat",
 	"description": "Personalize Mega Hack v9.",
 	"dependencies": {
 		"absolllute.megahack": ">=9.0.0"
 	},
+	"tags": [
+		"customization",
+		"interface",
+		"utility"
+	],
 	"settings": {
 		"main-accent": {
 			"type": "rgb",
@@ -39,5 +44,3 @@
 		}
 	}
 }
-
-
