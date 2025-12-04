@@ -37,16 +37,8 @@ public:
 
     static void writeStartupValues() {
         auto path = Loader::get()->getInstalledMod("absolllute.megahack")->getSaveDir() / "v9" / "home.json";
+        auto jsonData = utils::file::readJson(path).unwrapOr(-2);
 
-        // read file
-        std::ifstream jsonFile(path);
-        if (!jsonFile.is_open()) return;
-        std::string content((std::istreambuf_iterator<char>(jsonFile)), std::istreambuf_iterator<char>());
-        jsonFile.close();
-
-        auto jsonData = matjson::parse(content).unwrapOr(-2);
-
-        // set to new values
 		if (jsonData.contains("V_INT")) {
             jsonData.get("V_INT").unwrap()["HOME/ACCENT"] = Mod::get()->getSavedValue<int>("MAIN_ACCENT_INT");
             jsonData.get("V_INT").unwrap()["HOME/BACKGROUND"] = Mod::get()->getSavedValue<int>("BACKGROUND_ACCENT_INT");
@@ -55,11 +47,10 @@ public:
         if (jsonData.contains("V_BOOL")) {
             jsonData.get("V_BOOL").unwrap()["HOME/LIGHT_MODE"] = Mod::get()->getSettingValue<bool>("light-mode");
         }
-
-		// write file
-        std::ofstream outFile(path);
-        if (!outFile.is_open()) return;
-        outFile << jsonData.dump();
+        
+        if (!utils::file::writeString(path, jsonData.dump())) {
+            log::error("Failed to write Mega Hack v9 theme settings.");
+        }
     }
 };
 

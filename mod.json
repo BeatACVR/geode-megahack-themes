@@ -5,11 +5,14 @@
 	},
 	"id": "beat.mega_hack_themes",
 	"name": "Mega Hack Themes",
-	"version": "v1.0.0",
+	"version": "v9.0.3",
 	"developer": "Beat",
 	"description": "Personalize Mega Hack v9.",
 	"dependencies": {
-		"absolllute.megahack": ">=9.0.0"
+		"absolllute.megahack": ">=9.0.3"
+	},
+	"links": {
+		"source": "https://github.com/BeatACVR/geode-megahack-themes"
 	},
 	"tags": [
 		"customization",
