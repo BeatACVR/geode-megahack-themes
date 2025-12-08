@@ -1,4 +1,4 @@
-# Mega Hack Themes  
+# Mega Mega Hack Themes  
 Press the cog gear in the lower left corner once the mod is installed to change your Mega Hack UI colors.  
 
 This mod only works on Windows.  
@@ -18,4 +18,5 @@ also lead geode devs wheres my geode contributor role
   
   
   
+
 <-----------------
