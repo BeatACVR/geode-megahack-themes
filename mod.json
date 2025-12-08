@@ -5,7 +5,7 @@
 	},
 	"id": "beat.mega_hack_themes",
 	"name": "Mega Hack Themes",
-	"version": "v9.0.3",
+	"version": "v9.0.3-alpha.1",
 	"developer": "Beat",
 	"description": "Personalize Mega Hack v9.",
 	"dependencies": {
@@ -47,3 +47,4 @@
 		}
 	}
 }
+
