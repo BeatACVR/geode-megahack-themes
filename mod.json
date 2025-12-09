@@ -4,8 +4,8 @@
 		"win": "2.2074"
 	},
 	"id": "beat.mega_hack_themes",
-	"name": "Mega Mega Hack Themes",
-	"version": "v9.0.4-alpha.1",
+	"name": "Mega Hack Themes",
+	"version": "v9.0.6",
 	"developer": "Beat",
 	"description": "Personalize Mega Hack v9.",
 	"dependencies": {
@@ -47,6 +47,7 @@
 		}
 	}
 }
+
 
 
 
