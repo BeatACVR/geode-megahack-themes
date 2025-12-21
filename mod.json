@@ -20,6 +20,10 @@
 		"utility"
 	],
 	"settings": {
+		"theme-saver": {
+			"type": "custom:theme-saver",
+			"name": "Theme Saver"
+		},
 		"main-accent": {
 			"type": "rgb",
 			"name": "Main Accent Color",
