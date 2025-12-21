@@ -178,15 +178,15 @@ protected:
             Mod::get()->setSettingValue<cocos2d::ccColor3B>("background-accent", color);
         }
 
-        // tabtext-color
+        // tabtext-accent
         {
-            auto& c = jsonData["tabtext-color"];
+            auto& c = jsonData["tabtext-accent"];
             cocos2d::ccColor3B color{
                 static_cast<GLubyte>(c["r"].asInt().unwrap()),
                 static_cast<GLubyte>(c["g"].asInt().unwrap()),
                 static_cast<GLubyte>(c["b"].asInt().unwrap())
             };
-            Mod::get()->setSettingValue<cocos2d::ccColor3B>("tabtext-color", color);
+            Mod::get()->setSettingValue<cocos2d::ccColor3B>("tabtext-accent", color);
         }
 
         // light-mode

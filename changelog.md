@@ -1,3 +1,5 @@
+# 9.0.9 - 3
+- Fixed another bug related to tab text color saving
 # 9.0.9 - 2
 - Fixed a bug where tab text color does not save in palettes
 - Improved palette loading efficiency
