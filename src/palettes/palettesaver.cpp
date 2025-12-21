@@ -131,7 +131,7 @@ protected:
 
         auto mainColor = Mod::get()->getSettingValue<cocos2d::ccColor3B>("main-accent");
         auto backgroundColor = Mod::get()->getSettingValue<cocos2d::ccColor3B>("background-accent");
-        auto tabtextColor = Mod::get()->getSettingValue<cocos2d::ccColor3B>("tabtext-color");
+        auto tabtextColor = Mod::get()->getSettingValue<cocos2d::ccColor3B>("tabtext-accent");
         auto lightMode = Mod::get()->getSettingValue<bool>("light-mode");
 
         auto jsonData = matjson::makeObject({ {"main-accent", mainColor},
@@ -149,17 +149,10 @@ protected:
         std::filesystem::path configDir = Mod::get()->getConfigDir();
         std::filesystem::create_directories(configDir / "savedPalettes");
         std::filesystem::path palettesPath = configDir / "savedPalettes";
-        bool paletteExists = false;
 
-        for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(palettesPath)) {
-            if (!entry.is_regular_file()) continue;
-            if (entry.path().filename() == paletteName + ".mhpalette") {
-                paletteExists = true;
-                break;
-            }
+        if (!std::filesystem::exists(palettesPath / (paletteName + ".mhpalette"))) {
+            return "Palette does not exist.";
         }
-
-        if (!paletteExists) return "Palette does not exist.";
 
         auto jsonData = utils::file::readJson(palettesPath / (paletteName + ".mhpalette")).unwrapOr(-2);
 
