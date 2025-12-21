@@ -1,3 +1,6 @@
+//
+// UNFINISHED AND UNUSED
+/*
 #pragma once
 #include <Geode/Geode.hpp>
 
@@ -50,3 +53,4 @@ public:
         this->onCloseBtn(nullptr);
     }
 };
+*/

@@ -36,9 +36,12 @@ class PaletteSaverSettingNodeV3 : public SettingNodeV3 {
 protected:
     ButtonSprite* m_saveButtonSprite;
     ButtonSprite* m_loadButtonSprite;
+    CircleButtonSprite* m_folderButtonSprite;
     CCMenuItemSpriteExtra* m_saveButton;
     CCMenuItemSpriteExtra* m_LoadButton;
-    std::string m_textboxInput = "Unnamed";
+    CCMenuItemSpriteExtra* m_folderButton;
+    std::string m_saveTextboxInput = "Unnamed";
+    std::string m_loadTextboxInput = "";
 
     bool init(std::shared_ptr<PaletteSaverSettingV3> setting, float width) {
         if (!SettingNodeV3::init(setting, width))
@@ -52,15 +55,26 @@ protected:
         m_LoadButton = CCMenuItemSpriteExtra::create(
             m_loadButtonSprite, this, menu_selector(PaletteSaverSettingNodeV3::onPaletteLoad)
         );
+        m_folderButtonSprite = CircleButtonSprite::createWithSpriteFrameName("folderIcon_001.png", 1.1f, CircleBaseColor::Green);
+        m_folderButtonSprite->setScale(.7f);
+        m_folderButton = CCMenuItemSpriteExtra::create(
+            m_folderButtonSprite, this, menu_selector(PaletteSaverSettingNodeV3::onFolderButton)
+        );
+
+        this->getButtonMenu()->addChild(m_folderButton);
         this->getButtonMenu()->addChild(m_saveButton);
         this->getButtonMenu()->addChild(m_LoadButton);
-        this->getButtonMenu()->setContentWidth(120);
+        this->getButtonMenu()->setContentWidth(160);
         this->getButtonMenu()->updateLayout();
         this->getButtonMenu()->setLayout(RowLayout::create());
 
         this->updateState(nullptr);
         
         return true;
+    }
+
+    void onFolderButton(CCObject*) {
+        file::openFolder(Mod::get()->getConfigDir() / "savedPalettes");
     }
 
     void onPaletteSave(CCObject*) {
@@ -70,7 +84,7 @@ protected:
             "Cancel", "Save",
             [this, savePopup](auto, bool btn2) {
                 if (btn2) {
-                    savePalette(m_textboxInput);
+                    savePalette(m_saveTextboxInput);
                     FLAlertLayer::create("Palette Saver", "Saved palette successfully!", "OK")->show();
                 }
             }
@@ -81,15 +95,32 @@ protected:
         inputField->setID("palette-name-input"_spr);
         inputField->setPosition(0.f, savePopup->getContentSize().height / 8);
         inputField->setCallback([=](std::string input) {
-            m_textboxInput = inputField->getString();
+            m_saveTextboxInput = inputField->getString();
         });
         savePopup->m_buttonMenu->addChild(inputField);
 
     }
 
     void onPaletteLoad(CCObject*) {
-        CCLayer* loader = PaletteLoaderNode::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(loader);
+        FLAlertLayer* loadPopup = geode::createQuickPopup(
+            "Palette Loader",
+            "Enter the name of the palette you want to load:\n\n\n",
+            "Cancel", "Load",
+            [this, loadPopup](auto, bool btn2) {
+                if (btn2) {
+                    FLAlertLayer::create("Palette Loader", fmt::format("{}", loadPalette(m_loadTextboxInput)), "OK")->show();
+                }
+            }
+        );
+        
+        auto inputField = TextInput::create(CCDirector::sharedDirector()->getWinSize().width / 3, "Palette Name", "bigFont.fnt");
+        inputField->setMaxCharCount(24);
+        inputField->setID("palette-name-input"_spr);
+        inputField->setPosition(0.f, loadPopup->getContentSize().height / 8);
+        inputField->setCallback([=](std::string input) {
+            m_loadTextboxInput = inputField->getString();
+        });
+        loadPopup->m_buttonMenu->addChild(inputField);
     }
 
     void savePalette(std::string paletteName = "Failed To Name") {
@@ -111,6 +142,67 @@ protected:
         if (!utils::file::writeString(savePath, jsonData.dump())) {
             log::error("Failed to save palette data.");
         }
+    }
+
+    std::string loadPalette(std::string paletteName = "") {
+        if (paletteName.empty()) return "Please enter a palette name.";
+        std::filesystem::path configDir = Mod::get()->getConfigDir();
+        std::filesystem::create_directories(configDir / "savedPalettes");
+        std::filesystem::path palettesPath = configDir / "savedPalettes";
+        bool paletteExists = false;
+
+        for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(palettesPath)) {
+            if (!entry.is_regular_file()) continue;
+            if (entry.path().filename() == paletteName + ".mhpalette") {
+                paletteExists = true;
+                break;
+            }
+        }
+
+        if (!paletteExists) return "Palette does not exist.";
+
+        auto jsonData = utils::file::readJson(palettesPath / (paletteName + ".mhpalette")).unwrapOr(-2);
+
+        // main-accent
+        {
+            auto& c = jsonData["main-accent"];
+            cocos2d::ccColor3B color{
+                static_cast<GLubyte>(c["r"].asInt().unwrap()),
+                static_cast<GLubyte>(c["g"].asInt().unwrap()),
+                static_cast<GLubyte>(c["b"].asInt().unwrap())
+            };
+            Mod::get()->setSettingValue<cocos2d::ccColor3B>("main-accent", color);
+        }
+
+        // background-accent
+        {
+            auto& c = jsonData["background-accent"];
+            cocos2d::ccColor3B color{
+                static_cast<GLubyte>(c["r"].asInt().unwrap()),
+                static_cast<GLubyte>(c["g"].asInt().unwrap()),
+                static_cast<GLubyte>(c["b"].asInt().unwrap())
+            };
+            Mod::get()->setSettingValue<cocos2d::ccColor3B>("background-accent", color);
+        }
+
+        // tabtext-color
+        {
+            auto& c = jsonData["tabtext-color"];
+            cocos2d::ccColor3B color{
+                static_cast<GLubyte>(c["r"].asInt().unwrap()),
+                static_cast<GLubyte>(c["g"].asInt().unwrap()),
+                static_cast<GLubyte>(c["b"].asInt().unwrap())
+            };
+            Mod::get()->setSettingValue<cocos2d::ccColor3B>("tabtext-color", color);
+        }
+
+        // light-mode
+        {
+            bool lightMode = jsonData["light-mode"].asBool().unwrap();
+            Mod::get()->setSettingValue<bool>("light-mode", lightMode);
+        }
+
+        return "Palette loaded!";
     }
     
     // Both of these can just be no-ops, since they make no sense for our 
