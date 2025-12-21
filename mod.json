@@ -20,9 +20,9 @@
 		"utility"
 	],
 	"settings": {
-		"theme-saver": {
-			"type": "custom:theme-saver",
-			"name": "Theme Saver"
+		"palette-saver": {
+			"type": "custom:palette-saver",
+			"name": "Palette Saver"
 		},
 		"main-accent": {
 			"type": "rgb",
