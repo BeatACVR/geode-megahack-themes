@@ -1,4 +1,5 @@
 #include <Geode/Geode.hpp>
+#include "../palettes/paletteloader.hpp"
 
 using namespace geode::prelude;
 
@@ -87,11 +88,8 @@ protected:
     }
 
     void onPaletteLoad(CCObject*) {
-        FLAlertLayer::create(
-            "Palette Loader",
-            "Still need to implement loading",
-            "OK"
-        )->show();
+        CCLayer* loader = PaletteLoaderNode::create();
+        CCDirector::sharedDirector()->getRunningScene()->addChild(loader, 10000);
     }
 
     void savePalette(std::string paletteName = "Failed To Name") {
