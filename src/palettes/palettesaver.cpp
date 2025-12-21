@@ -89,7 +89,7 @@ protected:
 
     void onPaletteLoad(CCObject*) {
         CCLayer* loader = PaletteLoaderNode::create();
-        CCDirector::sharedDirector()->getRunningScene()->addChild(loader, 10000);
+        CCDirector::sharedDirector()->getRunningScene()->addChild(loader);
     }
 
     void savePalette(std::string paletteName = "Failed To Name") {
