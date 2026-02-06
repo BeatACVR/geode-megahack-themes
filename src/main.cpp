@@ -68,15 +68,15 @@ $execute {
 		themeUtils::writeStartupValues();
 	}
 
-    listenForSettingChanges("main-accent", [](cocos2d::ccColor3B newMainColor) {
+    listenForSettingChanges<cocos2d::ccColor3B>("main-accent", [](cocos2d::ccColor3B newMainColor) {
         themeUtils::prepMainAccent(newMainColor);
 		themeUtils::checkForMatchingColors(newMainColor, Mod::get()->getSettingValue<cocos2d::ccColor3B>("background-accent"));
     });
-    listenForSettingChanges("background-accent", [](cocos2d::ccColor3B newBackgroundColor) {
+    listenForSettingChanges<cocos2d::ccColor3B>("background-accent", [](cocos2d::ccColor3B newBackgroundColor) {
         themeUtils::prepBackgroundAccent(newBackgroundColor);
 		themeUtils::checkForMatchingColors(Mod::get()->getSettingValue<cocos2d::ccColor3B>("main-accent"), newBackgroundColor);
     });
-	listenForSettingChanges("tabtext-accent", [](cocos2d::ccColor3B newTabTextColor) {
+	listenForSettingChanges<cocos2d::ccColor3B>("tabtext-accent", [](cocos2d::ccColor3B newTabTextColor) {
 		themeUtils::prepTabTextAccent(newTabTextColor);
 		themeUtils::checkForMatchingColors(Mod::get()->getSettingValue<cocos2d::ccColor3B>("main-accent"), newTabTextColor);
 	});
