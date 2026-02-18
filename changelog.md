@@ -1,4 +1,4 @@
-# 9.1.0 - 1
+# 9.1.0 - 3
 - Added support for Geode v5 / GD 2.2081 / Mega Hack v9.10.0.
 # 9.0.9 - 3
 - Fixed another bug related to tab text color saving
