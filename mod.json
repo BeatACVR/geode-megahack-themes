@@ -1,5 +1,5 @@
 {
-	"geode": "5.0.0",
+	"geode": "5.0.0-beta.3",
 	"gd": {
 		"win": "2.2081"
 	},
@@ -9,7 +9,7 @@
 	"developer": "Beat",
 	"description": "Personalize Mega Hack v9.",
 	"dependencies": {
-		"absolllute.megahack": ">=9.1.0"
+		"absolllute.megahack": ">=9.1.0-beta.7"
 	},
 	"links": {
 		"source": "https://github.com/BeatACVR/geode-megahack-themes"
